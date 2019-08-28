@@ -1,0 +1,54 @@
+*{
+    box-sizing: border-box;
+    /* box-sizing includes the padding and the border in the total width and height */
+}
+
+.wrapper{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr); /*repeat(how many times, size). fr is a unit that splits the remaining units and distributes it evenly among the number */
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 5px;
+}
+
+.one{
+    grid-column: 1;
+    grid-row: 1;
+    background-color: aqua;
+}
+
+.two{
+    grid-column: 2;
+    grid-row: 1;
+    background-color: red;
+}
+
+.three{
+    grid-column: 3;
+    grid-row: 1;
+    background-color: green;
+}
+
+.four{
+    grid-column: 1;
+    grid-row: 2;
+    background-color: blue;
+}
+
+.five{
+    grid-column: 2;
+    grid-row: 2;
+    background-color: yellow;
+}
+
+.six{
+    grid-column: 3;
+    grid-row: 2;
+    background-color: pink;
+}
+
+.wrapper-two{
+    display: grid;
+    grid-template-areas: "a b c"
+                         "d e f";
+    grid-gap: 10px;
+}
