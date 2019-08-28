@@ -526,4 +526,3 @@ johnAthlete6.calculateAge();
 
 // ** Coding challenge 8
 
-class Test{}
