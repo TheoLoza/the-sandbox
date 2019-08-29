@@ -14,3 +14,10 @@ Using --save-dev and --save will only install packages locally (only in the curr
 
 CONFIGURING WEBPACK:
 Create a file in the root of the project called webpack.config.js (more explained in the video on lecture 134)
+
+RUNNING OUR PROJECT:
+Use npm run 'script name here'
+The script name is from the package.json file
+
+CONFIGURING BABEL:
+Create a file called .babelrc
