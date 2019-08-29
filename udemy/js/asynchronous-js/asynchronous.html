@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript</title>
+</head>
+
+<body>
+    <h1>Asynchronous JavaScript</h1>
+    <script>
+        // ** Example of Asynchronous JS
+
+        /*
+        // Synchronous: code executed one after the other in the same order, line by line
+        const second = () => {
+            // console.log('Second');
+
+            // Example of asynchronous
+            setTimeout(() => {
+                console.log('Async hello there');
+            }, 2000)
+        }
+
+        const first = () => {
+            console.log('Hello there');
+            second();
+            console.log('The end');
+        }
+        first();
+        */
+
+        // ** The Old Way: Asynchronous JS with Callbacks
+
+        /*
+        function getRecipe(){
+            // getting recipe ids from server
+            // Simulates chaining ajax calls to server
+            // Levels are nested setTimeouts
+            // AKA the callback hell
+            setTimeout(() => {
+                const recipeID = [123, 456, 231, 897];
+                console.log(recipeID);
+
+                setTimeout(id => {
+                    const recipe = {title: 'Pasta', publisher: 'Jonas'};
+                    console.log(`${id}: ${recipe.title}`);
+                    
+                    setTimeout(publisher => {
+                        const recipe2 = {title: 'Pizza', publisher: 'Jonas'};
+                        console.log(recipe2);
+                    }, 1500, recipe.publisher);
+                }, 1500, recipeID[2]); // Third arg is arg for callback function
+            }, 1500);
+        }
+        getRecipe();
+        */
+
+        // ** From Callback Hell to Promises
+
+        /*
+        // creating the promise
+        const getIDs = new Promise((resolve, reject) => {
+            // setTimeout() is always successful
+            setTimeout(() => {
+                resolve([123, 456, 231, 897]);
+            }, 1500)
+        });
+
+        const getRecipe = recipeID => {
+            return new Promise((resolve, reject) => {
+                setTimeout(id => {
+                    const recipe = {
+                        title: 'Pasta',
+                        publisher: 'Jonas'
+                    };
+                    resolve(`${id}: ${recipe.title}`);
+                }, 1500, recipeID);
+            });
+        };
+
+        const getRelated = publisher => {
+            return new Promise((resolve, reject) => {
+                setTimeout(pub => {
+                    const recipe = {
+                        title: 'Pizza',
+                        publisher: 'Jonas'
+                    };
+                    resolve(`${pub}: ${recipe.title}`);
+                }, 1500, publisher);
+            });
+        };
+        */
+
+        /*
+        // consume the promise using then and catch methods
+        getIDs
+            .then(ids => {
+                // callback function arg is the result of the resolve()
+                console.log(ids);
+                return getRecipe(ids[2]); // Start chaining returns a promise
+            })
+            .then(recipe => {
+                // Can then chain the promise to here
+                console.log(recipe);
+                return getRelated('Jonas');
+            })
+            .then(recipe => {
+                console.log(recipe);
+            })
+            .catch(error => {
+                console.log('error');
+            });
+        */
+
+        // ** From Promises to Async/Await
+        // Better way of consuming promises without chaining callbacks
+
+        /*
+        // Start with an async function (asynchronous)
+        async function getRecipesAW() {
+            // Can have one or more await functions
+            // the await expression will stop the code from running until the promise is fulfilled
+            // Await only works on async functions
+            const ids = await getIDs;
+            console.log(ids);
+            const recipe = await getRecipe(ids[2]);
+            console.log(recipe);
+            const related = await getRelated('Jonas');
+            console.log(related);
+
+            // Returning a value, will not work in this case, must consume promise when we call the function
+            return recipe;
+        }
+        getRecipesAW().then(result => console.log(`${result} is the best`)); // Fixes the return problem
+        // console.log(rec); // The function is still running in the background, so the promise is pending
+        // That console.log(rec) happens before the async function actually returns
+        */
+
+        // ** Making AJAX calls with Fetch and Promises
+
+
+        function getWeather(woeid) {
+            // Cross origin is there to allow us to use the service from metaweather (related to CORS)
+            fetch(
+                    `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+                ) // location is the api endpoint or method
+                // Fetch returns a promise
+                .then(result => {
+                    // console.log(result);
+                    return result.json(); // Also returns a promise
+                })
+                .then(data => {
+                    // console.log(data);
+                    const today = data.consolidated_weather[0]; // array from fetched json
+                    console.log(
+                        `Temperatures today in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`
+                    );
+                })
+                .catch(error => console.log(error));
+        }
+        getWeather(2487956);
+        getWeather(44418);
+
+
+        // ** Making AJAX calls with async/await
+
+
+        async function getWeatherAW(woeid) {
+            // use try/catch to handle errors in async/await
+            try {
+                const result = await fetch(
+                    `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+                );
+                const data = await result.json();
+                const tomorrow = data.consolidated_weather[1];
+                console.log(
+                    `Temperatures tomorrow in ${data.title} stay between ${tomorrow.min_temp} and ${tomorrow.max_temp}`
+                );
+                return data;
+            } catch (error) {
+                alert(error);
+            }
+        }
+        getWeatherAW(2487956);
+        let dataLondon;
+        // to show error, add an extra number
+        getWeatherAW(44418).then(data => {
+            dataLondon = data;
+            console.log(dataLondon);
+        });
+    </script>
+</body>
+
+</html>
