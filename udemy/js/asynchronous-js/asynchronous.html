@@ -124,6 +124,7 @@
             // Can have one or more await functions
             // the await expression will stop the code from running until the promise is fulfilled
             // Await only works on async functions
+            // All async functions return promises!
             const ids = await getIDs;
             console.log(ids);
             const recipe = await getRecipe(ids[2]);
