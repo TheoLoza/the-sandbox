@@ -15,6 +15,7 @@ export const clearInput = () => {
 
 export const clearResults = () => {
     elements.searchResultList.innerHTML = '';
+    elements.searchResultPages.innerHTML = ''; // Clear the buttons as well
 };
 
 // Function that will limit the title to one line only. Adds three dots if more than one line
@@ -71,6 +72,44 @@ const renderRecipe = recipe => {
     elements.searchResultList.insertAdjacentHTML('beforeend', markup);
 };
 
-export const renderResults = recipes => {
-    recipes.forEach(renderRecipe); // Notice how we didn't have to make a callback function. The current element will be passed to the function
+// type: prev or next
+const createButton = (page, type) => `
+    <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
+        <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
+        </svg>
+    </button>
+`;
+
+const renderButtons = (page, numResults, resPerPage) => {
+    const pages = Math.ceil(numResults / resPerPage);
+    let button;
+
+    if (page === 1 && pages > 1) {
+        // Only button to go to next page
+        button = createButton(page, 'next');
+    } else if (page < pages) {
+        // Both buttons
+        button = `
+        ${createButton(page, 'prev')}
+        ${createButton(page, 'next')}
+        `;
+    } else if (page === pages && pages > 1) {
+        // Only button to go to previous page
+        button = createButton(page, 'prev');
+    }
+
+    elements.searchResultPages.insertAdjacentHTML('afterbegin', button);
+};
+
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    // Render results of current page
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+
+    recipes.slice(start, end).forEach(renderRecipe); // Notice how we didn't have to make a callback function. The current element will be passed to the function
+
+    // Render pagination buttons
+    renderButtons(page, recipes.length, resPerPage);
 }

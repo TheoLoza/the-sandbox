@@ -49,7 +49,22 @@ const controlSearch = async () => {
         searchView.renderResults(state.search.result);
     }
 }
+// Event listener that checks if user submitted a search query
 elements.searchForm.addEventListener('submit', event => {
     event.preventDefault(); // Prevents the page from reloading every time the event is triggered
     controlSearch();
+});
+
+// Event listener that checks if user clicked on pagination button
+elements.searchResultPages.addEventListener('click', event => {
+    // Demonstration of the closest method
+    // Helpful so that no matter where you click on the button, the element captured will still be the button
+    const btn = event.target.closest('.btn-inline'); // We are only interested in the ones with btn-inline
+    // console.log(btn); // Exactly where this click happened
+    if (btn) {
+        const goToPage = parseInt(btn.dataset.goto, 10); // Second param means on base 10
+        searchView.clearResults(); // Clear results first!
+        searchView.renderResults(state.search.result, goToPage);
+        // console.log(goToPage);
+    }
 });
