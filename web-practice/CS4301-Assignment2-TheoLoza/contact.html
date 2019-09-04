@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+        <title>Contact Me</title>
+    </head>
+    <body>
+        <div id='header'>
+            <h1>Contact Me</h1>
+            <small>Call me, beep me, if you wanna reach me...</small>
+            <p id='time'></p>
+        </div>
+        <div id='navbar'>
+            <ul id='nav-list'>
+                <li class='nav-link-item'><a href='home.html'>Home</a></li>
+                <li class='nav-link-item'><a href='resume.html'>Resume</a></li>
+                <li class='nav-link-item'><a href='hobbies.html'>Hobbies</a></li>
+                <li class='nav-link-item'><a href='contact.html'>Contact</a></li>
+                <li class='nav-link-item'><a href='quiz.html'>Quiz</a></li>
+            </ul>
+        </div>
+        <div id='content-wrap'>
+            <div id='sidebar'>
+                <h3>What's in Store</h3>
+                <ul id='side-list'>
+                    <li class='side-link-item'>Ways to contact me</li>
+                    <li class='side-link-item'>Where you can find me</li>
+                    <li class='side-link-item'>Who are you</li>
+                </ul>
+                
+            </div>
+            <div id='content'>
+                <h3>Some ways you can reach me</h3><br>
+                <p>Email: email@email.com</p>
+                <p>Phone: (000)000-0000</p>
+                <p>Address: 123 Street Rd City, State 00000</p><br>
+
+                <h3>Some sites where you can find me or my projects</h3><br>
+                <a href='#'>LinkedIn</a>
+                <a href='#'>GitHub</a>
+                <a href='#'>Facebook</a>
+
+                <h3>Let me know who you are</h3><br>
+                <form accept-charset='utf-8' name='contact-form' onsubmit= 'return Form.validate()'>
+                    <!-- Alternative form of regex validation is using the 'pattern' attribute, 
+                        but it was not used for this assignment -->
+                    <p>Name:</p>
+                    <input type='text' name='fname' placeholder='First name'>
+                    <input type='text' name='lname' placeholder='Last name'><br>
+                    <small class='name-err error-text'></small><br>
+
+                    <p>Phone number</p>
+                    <input type='tel' name='phone' placeholder='Format: (###)###-####'>
+                    <small class='phone-err error-text'></small><br>
+
+                    <!-- type='email' takes care of the validation -->
+                    <p>Email</p>
+                    <input type='email' name='email-addr'>
+                    <br><br>
+                    
+                    <p>Gender</p>
+                    <input type='radio' name='gender' value='male' id='radio1' required> 
+                    <label for='radio1'>Male</label>
+                    <input type='radio' name='gender' value='female' id='radio2' required> 
+                    <label for='radio2'>Female</label><br><br>
+
+                    <p>Comment</p>
+                    <textarea name='usr-comment' cols='50' rows='7'></textarea><br>
+                    <small class='comment-err error-text'></small><br>
+
+                    <input type='submit' value='Submit'>
+                    <input type='reset' value='Clear form'>
+                </form>
+            </div>
+        </div>
+        <div id='footer'>
+            <input type='text' id='change-font' placeholder='In pixels'>
+            <button onclick='changeFont()'>Change font size</button>
+            <input type='text' id='change-color' placeholder='In hex format'>
+            <button onclick='changeColor()'>Change background color</button>
+        </div>
+        
+        <script src='script.js'></script>
+    </body>
+</html>

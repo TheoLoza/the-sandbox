@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+        <title>Quiz</title>
+    </head>
+    <body>
+        <div id='header'>
+            <h1>Quiz</h1>
+            <small>Quiz time!</small>
+            <p id='time'></p>
+        </div>
+        <div id='navbar'>
+            <ul id='nav-list'>
+                <li class='nav-link-item'><a href='home.html'>Home</a></li>
+                <li class='nav-link-item'><a href='resume.html'>Resume</a></li>
+                <li class='nav-link-item'><a href='hobbies.html'>Hobbies</a></li>
+                <li class='nav-link-item'><a href='contact.html'>Contact</a></li>
+                <li class='nav-link-item'><a href='quiz.html'>Quiz</a></li>
+            </ul>
+        </div>
+        <div id='quiz-content'>
+            <ol id='quiz-list'>
+                <li>I like to sew clothes.</li>
+                <input type='radio' name='q1' id='rad1'>
+                <label for='rad1'>True</label><br>
+                <input type='radio' name='q1' id='rad2'>
+                <label for='rad2'>False</label><br>
+
+                <!-- <li>I attend Cedar Valley College.</li>
+                <input type='radio' name='q2' id='rad3'>
+                <label for='rad3'>True</label><br>
+                <input type='radio' name='q2' id='rad4'>
+                <label for='rad4'>False</label><br>
+
+                <li>I like fighting games.</li>
+                <input type='radio' name='q3' id='rad5'>
+                <label for='rad5'>True</label><br>
+                <input type='radio' name='q3' id='rad6'>
+                <label for='rad6'>False</label><br>
+
+                <li>I currently attend UT Austin.</li>
+                <input type='radio' name='q4' id='rad7'>
+                <label for='rad7'>True</label><br>
+                <input type='radio' name='q4' id='rad8'>
+                <label for='rad8'>False</label><br>
+
+                <li>I like racing games.</li>
+                <input type='radio' name='q5' id='rad9'>
+                <label for='rad9'>True</label><br>
+                <input type='radio' name='q5' id='rad10'>
+                <label for='rad10'>False</label><br> -->
+            </ol>
+            <button onclick='nextQuestion()'>Next Question</button>
+            <button onclick='skipQuestion()'>Skip Question</button>
+            <button onclick='showAnswers()'>Answers</button>
+        </div>
+        
+        <div id='footer'>
+            <input type='text' id='change-font' placeholder='In pixels'>
+            <button onclick='changeFont()'>Change font size</button>
+            <input type='text' id='change-color' placeholder='In hex format'>
+            <button onclick='changeColor()'>Change background color</button>
+        </div>
+
+        <script src='script.js'></script>
+    </body>
+</html>
