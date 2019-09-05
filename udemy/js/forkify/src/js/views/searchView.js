@@ -18,6 +18,16 @@ export const clearResults = () => {
     elements.searchResultPages.innerHTML = ''; // Clear the buttons as well
 };
 
+export const highlightSelected = id => {
+    // Remove any previously selected items
+    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    resultsArr.forEach(element => {
+        element.classList.remove('results__link--active');
+    });
+
+    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+};
+
 // Function that will limit the title to one line only. Adds three dots if more than one line
 // This function should not cut the words into different pieces.
 // Takes in the recipe and the limit of characters in a line. According to instructor, 17 was the sweet spot in this project

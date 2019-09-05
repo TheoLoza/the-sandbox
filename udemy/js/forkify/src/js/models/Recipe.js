@@ -56,6 +56,7 @@ export default class Recipe {
             'cup',
             'pound'
         ];
+        const units = [...unitsShort, 'kg', 'g'];
         const newIngredients = this.ingredients.map(element => {
             // Uniform units
             let ingredient = element.toLowerCase();
@@ -69,7 +70,7 @@ export default class Recipe {
             // Parse ingredient into count, unit, and ingredient
             const arrayIng = ingredient.split(' ');
             // A way to find the position of the unit when we don't know what unit we are looking for
-            const unitIndex = arrayIng.findIndex(element2 => unitsShort.includes(element2)); // Returns the index of the unit in the split array
+            const unitIndex = arrayIng.findIndex(element2 => units.includes(element2)); // Returns the index of the unit in the split array
 
             let objectIng; // Final object we are returning
             if (unitIndex > -1) {
@@ -109,5 +110,18 @@ export default class Recipe {
             return objectIng;
         });
         this.ingredients = newIngredients;
+    }
+
+    updateServings(type) {
+        // Servings
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+
+        // Ingredients
+        this.ingredients.forEach(ing => {
+            ing.count *= (newServings / this.servings);
+        });
+
+        // Set the variables
+        this.servings = newServings;
     }
 }

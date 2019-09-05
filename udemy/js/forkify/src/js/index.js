@@ -15,6 +15,7 @@ console.log(`using imported functions ${searchView.add(searchView.id, 2)} and ${
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import {
     elements,
     renderLoader,
@@ -41,7 +42,7 @@ const controlSearch = async () => {
         // 3. Prepare UI for results
         searchView.clearInput(); // Get rid of the input in the search bar
         searchView.clearResults(); // Get rid of the results to prevent the new results from appending to the old ones
-        renderLoader(elements.searchResult) // Render our loader
+        renderLoader(elements.searchResult) // Render our loader, pass in parent so that it knows where to display itself
 
         // Need a try/catch here because of our getResults()
         try {
@@ -86,6 +87,11 @@ const controlRecipe = async () => {
 
     if (id) {
         // Prepare UI for changes 
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
+
+        // Highlight selected item
+        if (state.search) searchView.highlightSelected(id);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
@@ -101,7 +107,8 @@ const controlRecipe = async () => {
             state.recipe.calcTime();
 
             // Render recipe
-            console.log(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         } catch (error) {
             alert('There was an error in obtaining recipe');
         }
@@ -120,3 +127,19 @@ const controlRecipe = async () => {
 // A way to add multiple events into one event listener
 // Loop over the events into the event listener
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+// Event listeners for the buttons to change the servings
+// Using event delegation 
+elements.recipe.addEventListener('click', event => {
+    if (event.target.matches('.btn-decrease, .btn-decrease *')) {
+        // Decrease button in clicked
+        if (state.recipe.servings > 1) {
+            state.recipe.updateServings('dec');
+            recipeView.updateServIng(state.recipe);
+        }
+    } else if (event.target.matches('.btn-increase, .btn-increase *')) {
+        // increase button in clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServIng(state.recipe);
+    }
+});
