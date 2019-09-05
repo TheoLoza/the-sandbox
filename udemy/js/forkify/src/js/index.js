@@ -13,6 +13,7 @@ console.log(`using imported functions ${searchView.add(searchView.id, 2)} and ${
 */
 
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import {
     elements,
@@ -28,6 +29,7 @@ import {
  */
 const state = {};
 
+// SEARCH CONTROLLER
 const controlSearch = async () => {
     // 1. Get query from view
     const query = searchView.getInput();
@@ -41,14 +43,21 @@ const controlSearch = async () => {
         searchView.clearResults(); // Get rid of the results to prevent the new results from appending to the old ones
         renderLoader(elements.searchResult) // Render our loader
 
-        // 4. Search for recipes
-        await state.search.getResults();
+        // Need a try/catch here because of our getResults()
+        try {
+            // 4. Search for recipes
+            await state.search.getResults();
 
-        // 5. Render results on UI
-        clearLoader();
-        searchView.renderResults(state.search.result);
+            // 5. Render results on UI
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        } catch (error) {
+            alert('There was an error in searching');
+            clearLoader();
+        }
     }
 }
+
 // Event listener that checks if user submitted a search query
 elements.searchForm.addEventListener('submit', event => {
     event.preventDefault(); // Prevents the page from reloading every time the event is triggered
@@ -68,3 +77,46 @@ elements.searchResultPages.addEventListener('click', event => {
         // console.log(goToPage);
     }
 });
+
+// RECIPE CONTROLLER
+
+const controlRecipe = async () => {
+    // Get id from the url hash
+    const id = window.location.hash.replace('#', '');
+
+    if (id) {
+        // Prepare UI for changes 
+
+        // Create new recipe object
+        state.recipe = new Recipe(id);
+
+        // Need the try/catch here because of our getRecipe() function
+        try {
+            // Get recipe data and parse ingredients
+            await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
+
+            // Calculate servings and time
+            state.recipe.calcServings();
+            state.recipe.calcTime();
+
+            // Render recipe
+            console.log(state.recipe);
+        } catch (error) {
+            alert('There was an error in obtaining recipe');
+        }
+    }
+}
+
+// Global event listener
+// Hashchange event is when something changes in the hash of the url
+// Ex: when clicking on an id, the hash changes in the url
+// window.addEventListener('hashchange', controlRecipe);
+
+// Event listener to fire when the page is loaded
+// This is so that the data would not change if the person either bookmarks it or reloads the page
+// window.addEventListener('load', controlRecipe);
+
+// A way to add multiple events into one event listener
+// Loop over the events into the event listener
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
