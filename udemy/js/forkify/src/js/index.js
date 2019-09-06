@@ -14,8 +14,10 @@ console.log(`using imported functions ${searchView.add(searchView.id, 2)} and ${
 
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import {
     elements,
     renderLoader,
@@ -29,6 +31,8 @@ import {
  * - Liked recipes: 
  */
 const state = {};
+// FOR TESTING
+window.state = state;
 
 // SEARCH CONTROLLER
 const controlSearch = async () => {
@@ -128,8 +132,42 @@ const controlRecipe = async () => {
 // Loop over the events into the event listener
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+// LIST CONTROLLER
+const controlList = () => {
+    // Create a new list if there is none yet
+    if (!state.list) state.list = new List();
+
+    // Add each ingredient to the list and UI
+    state.recipe.ingredients.forEach(element => {
+        const item = state.list.addItem(element.count, element.unit, element.ingredient);
+
+        // Render the item
+        listView.renderItem(item);
+    });
+};
+
+// Event listeners for the buttons to delete and update items in the shopping list
+// Using event delegation because the buttons are not yet on the DOM when we first load the page
+elements.shopping.addEventListener('click', event => {
+    // Retrieve the id
+    const id = event.target.closest('.shopping__item').dataset.itemid;
+
+    // Handle the delete event
+    if (event.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state
+        state.list.deleteItem(id);
+        // Delete from UI
+        listView.deleteItem(id);
+    } else if (event.target.matches('.shopping__count-value')) {
+        // Read data from interface
+        const value = parseFloat(event.target.value);
+        // Update it
+        state.list.updateCount(id, value);
+    }
+});
+
 // Event listeners for the buttons to change the servings
-// Using event delegation 
+// Using event delegation because the buttons are not yet on the DOM
 elements.recipe.addEventListener('click', event => {
     if (event.target.matches('.btn-decrease, .btn-decrease *')) {
         // Decrease button in clicked
@@ -141,5 +179,8 @@ elements.recipe.addEventListener('click', event => {
         // increase button in clicked
         state.recipe.updateServings('inc');
         recipeView.updateServIng(state.recipe);
+    } else if (event.target.matches('.recipe__btn-add, .recipe__btn-add *')) {
+        // Add recipe to shopping list button is clicked
+        controlList();
     }
 });
