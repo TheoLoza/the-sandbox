@@ -15,9 +15,11 @@ console.log(`using imported functions ${searchView.add(searchView.id, 2)} and ${
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import List from './models/List';
+import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import {
     elements,
     renderLoader,
@@ -112,7 +114,7 @@ const controlRecipe = async () => {
 
             // Render recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
         } catch (error) {
             alert('There was an error in obtaining recipe');
         }
@@ -145,6 +147,56 @@ const controlList = () => {
         listView.renderItem(item);
     });
 };
+
+// LIKES CONTROLLER
+
+// TESTING: Will be replaced with local data persistence (located as an event handler)
+// state.likes = new Likes();
+// likesView.toggleLikeMenu(state.likes.getNumLikes());
+const controlLike = () => {
+    if (!state.likes) state.likes = new Likes();
+
+    const currentId = state.recipe.id;
+
+    // User has not yet liked the recipe
+    if (!state.likes.isLiked(currentId)) {
+        // Add like to the state
+        const newLike = state.likes.addLike(currentId, state.recipe.title, state.recipe.author, state.recipe.image);
+
+        // Toggle the like button
+        likesView.toggleLike(true);
+
+        // Add like to the UI list
+        likesView.renderLikes(newLike);
+    } else {
+        // User liked the recipe
+        // Remove like from the state
+        state.likes.deleteLike(currentId);
+
+        // Toggle the like button
+        likesView.toggleLike(false);
+
+        // Remove like to the UI list
+        likesView.deleteLike(currentId);
+
+    }
+
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+}
+
+// Event listener for restoring the likes menu every time the page loads
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+
+    // Restore likes
+    state.likes.readStorage();
+
+    // Toggle the like menu button
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    // Render existing likes
+    state.likes.likes.forEach(like => likesView.renderLikes(like));
+});
 
 // Event listeners for the buttons to delete and update items in the shopping list
 // Using event delegation because the buttons are not yet on the DOM when we first load the page
@@ -182,5 +234,8 @@ elements.recipe.addEventListener('click', event => {
     } else if (event.target.matches('.recipe__btn-add, .recipe__btn-add *')) {
         // Add recipe to shopping list button is clicked
         controlList();
+    } else if (event.target.matches('.recipe__love, .recipe__love *')) {
+        // Like controller
+        controlLike();
     }
 });

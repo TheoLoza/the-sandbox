@@ -43,3 +43,9 @@ Tools like Redux help with state management.
 EVENT LISTENERS ARE IN THE CONTROLLER!
 
 EVERY ASYNC FUNCTION RETURNS A PROMISE OBJECT!
+
+LOCALSTORAGE API:
+Allows us to save key value pairs in the browser.
+The data will stay intact even when the page reloads
+Can get, set, and delete
+Learned that it will still persist even if you close the webpack server, maybe because of how webpack dev server works
