@@ -9,16 +9,16 @@ const formatCount = count => {
     if (count) {
         // Ex: 2.5 -> 2 1/2
         // Ex: 0.5 -> 1/2
+        const newCount = Math.round(count * 10000) / 10000; // Way to fix the repeating integer bug
+        const [integer, decimal] = newCount.toString().split('.').map(element => parseInt(element, 10));
 
-        const [integer, decimal] = count.toString().split('.').map(element => parseInt(element, 10));
-
-        if (!decimal) return count;
+        if (!decimal) return newCount;
 
         if (integer === 0) {
-            const fraction = new Fraction(count);
+            const fraction = new Fraction(newCount);
             return `${fraction.numerator}/${fraction.denominator}`;
         } else {
-            const fraction = new Fraction(count - integer);
+            const fraction = new Fraction(newCount - integer);
             return `${integer} ${fraction.numerator}/${fraction.denominator}`;
         }
     }

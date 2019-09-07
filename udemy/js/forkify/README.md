@@ -49,3 +49,11 @@ Allows us to save key value pairs in the browser.
 The data will stay intact even when the page reloads
 Can get, set, and delete
 Learned that it will still persist even if you close the webpack server, maybe because of how webpack dev server works
+
+FUTURE SUGGESTIONS:
+Implement button to delete all shopping list items
+Implement functionality to manually add items to shopping list
+Save shopping list data to localStorage
+Improve ingredient parsing algorithm
+Come up with algorithm to calculate ingredients based on number of servings
+Improve error handling

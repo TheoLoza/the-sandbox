@@ -34,7 +34,7 @@ import {
  */
 const state = {};
 // FOR TESTING
-window.state = state;
+// window.state = state;
 
 // SEARCH CONTROLLER
 const controlSearch = async () => {
