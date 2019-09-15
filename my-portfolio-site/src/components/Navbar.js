@@ -5,6 +5,7 @@ import "../sass/components/navbar.scss";
  * Add Link API from Gatsby
  * Create the links array to pass names and links to the hrefs
  * Replace spans with the Link tags
+ * Better responsiveness
  */
 
 // const links = [];

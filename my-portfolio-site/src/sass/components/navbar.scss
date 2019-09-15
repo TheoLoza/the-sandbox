@@ -1,6 +1,9 @@
+@import "../variables";
+
 // Parent element
 .navbar {
-    background-color: #111;
+    background-color: $secondary-color;
+    color: $primary-color;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -18,25 +21,19 @@
         height: 20px;
         line-height: 20px;
     }
-
-    @media all and (max-width: 600px) {
-
-        .nav-links {
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            flex-basis: 50%;
-        }
-
+}
+@media all and (max-width: 600px) {
+    .nav-links {
+        flex-wrap: wrap;
     }
 
-    @media all and (max-width: 400px) {
-
-        .nav-item {
-            flex-basis: 100%;
-        }
-
+    .nav-item {
+        flex-basis: 50%;
     }
+}
 
+@media all and (max-width: 400px) {
+    .nav-item {
+        flex-basis: 100%;
+    }
 }
