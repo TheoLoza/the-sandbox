@@ -4,6 +4,7 @@ import LandingHeroImage from "../../static/img/hero.jpg";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Section from "../components/Section";
+import Card from "../components/Card";
 
 /** TODO
  * Add better responsiveness
@@ -42,6 +43,12 @@ export default () => (
                 </p>
                 <p>Associate of Science</p>
                 <p>GPA: 3.8/4.0</p>
+            </div>
+        </Section>
+        <Section>
+            <div>
+                <h1>Work Experience</h1>
+                <Card image={LandingHeroImage} />
             </div>
         </Section>
     </div>

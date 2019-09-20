@@ -1,0 +1,11 @@
+.card {
+    max-width: 350px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    img {
+        max-width: 100%;
+    }
+    .card-body {
+        line-height: 1;
+    }
+}
