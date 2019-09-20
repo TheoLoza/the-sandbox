@@ -48,7 +48,13 @@ export default () => (
         <Section>
             <div>
                 <h1>Work Experience</h1>
-                <Card image={LandingHeroImage} />
+                <Card
+                    image={LandingHeroImage}
+                    title="iCode North Dallas"
+                    position="Technical Lead and Lab Mentor"
+                    time="Since July 2018"
+                    linkText="Learn More"
+                />
             </div>
         </Section>
     </div>
